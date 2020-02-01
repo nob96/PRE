@@ -12,7 +12,7 @@
 
         <WrapPanel HorizontalAlignment="Left" Height="30" Margin="30,160,0,0" VerticalAlignment="Top" Width="265" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}">
             <Label Content="Reading IP-report..." Height="30" Width="180" FontSize="14" HorizontalAlignment="Left"/>
-            <Image Height="30" Width="85" Source="/assets/pending.png"/>
+            <Image x:Name="ReadingIPReport" Height="30" Width="85" Source="/assets/pending.png"/>
         </WrapPanel>
 
         <WrapPanel HorizontalAlignment="Left" Height="30" Margin="30,195,0,0" VerticalAlignment="Top" Width="265" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}">

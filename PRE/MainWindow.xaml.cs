@@ -29,7 +29,7 @@ namespace PRE
         {
             RunWindow runWindow = new RunWindow();
             runWindow.Show();
-            Analyse.Run();
+            Analyse.Run(runWindow);
         }
 
         private void BrowseIPDest_Click(object sender, RoutedEventArgs e)
