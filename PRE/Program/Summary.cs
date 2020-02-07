@@ -66,6 +66,7 @@ namespace PRE.Program
                 for (int i = 1; i < activeRecords.Count; i++)
                 {
                     string equityKey = activeRecords[i].ContainsKey("IP Equity") ? "IP Equity" : "OOP Equity";
+                    string weightKey = activeRecords[i].ContainsKey("Weight IP") ? "Weight IP" : "Weight OOP";
                     string type = activeRecords[i].ContainsKey("IP Equity") ? "IP" : "OOP";
 
                     if (activeRecords[i]["Flop"] == flop)
@@ -79,7 +80,7 @@ namespace PRE.Program
 
                             if (equity >= range.Value && equity <= range.Key)
                             {
-                                int newValue = int.Parse(this._records[flop][ipKey]) + 1;
+                                float newValue = float.Parse(this._records[flop][ipKey]) + float.Parse(activeRecords[i][weightKey]);
                                 this._records[flop][ipKey] = newValue.ToString();
                             }
                         }
@@ -93,6 +94,7 @@ namespace PRE.Program
                 for (int i = 1; i < inactiveRecords.Count; i++)
                 {
                     string equityKey = inactiveRecords[i].ContainsKey("OOP Equity") ? "OOP Equity" : "IP Equity";
+                    string weightKey = inactiveRecords[i].ContainsKey("Weight OOP") ? "Weight OOP" : "Weight IP";
                     string type = inactiveRecords[i].ContainsKey("OOP Equity") ? "OOP" : "IP";
 
                     if (inactiveRecords[i]["Flop"] == flop)
@@ -106,7 +108,7 @@ namespace PRE.Program
 
                             if (equity >= range.Value && equity <= range.Key)
                             {
-                                int newValue = int.Parse(this._records[flop][oopKey]) + 1;
+                                float newValue = float.Parse(this._records[flop][oopKey]) + float.Parse(inactiveRecords[i][weightKey]);
                                 this._records[flop][oopKey] = newValue.ToString();
                             }
                         }
