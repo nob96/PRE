@@ -1,43 +1,49 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Windows;
 using System.Windows.Media.Imaging;
 
 namespace PRE
 {
-    public static class Analyse
+    public class Analyse
     {
-        public static void Run(RunWindow runWindow)
+        public void Run(RunWindow runWindow)
         {
-            //Read
-            Program.Reader reader = new Program.Reader();
-            reader.Filename = Program.Config.PathIP;
-            reader.ReadHeader();
-            reader.ReadRecords();
-            runWindow.ReadingIPReport.Source = new BitmapImage(new Uri(@"/assets/done.png", UriKind.Relative));
+            BitmapImage imageDone = new BitmapImage(new Uri("/assets/done.png", UriKind.Relative));
+            Program.FullReport activeReport = new Program.FullReport();
 
-            //Prepare Data-Object
-            Program.Data data = Program.Data.Instance;
-            data.PrepareIPHeaders();
-            data.PrepareIPRecords();
+            activeReport.ReadHeaders(Program.Config.ActiveReport);
+            activeReport.ReadRecords(Program.Config.ActiveReport, 1);
+            runWindow.ReadingIPReport.Source = imageDone;
 
-            Program.Flop flop = new Program.Flop();
-            flop.Categorize();
+            activeReport.CalculateCategories();
+            activeReport.CalculateFreqActions();
+            runWindow.CategorizingFlop.Source = imageDone;
+            runWindow.CategorizingHand.Source = imageDone;
+            runWindow.CalculatingFreq.Source = imageDone;
 
-            Program.Hand hand = new Program.Hand();
-            hand.Categorize();
+            activeReport.Export(Program.Config.DestinationFolderCalculated + @"\calculated.csv");
+            runWindow.ExportingCalculated.Source = imageDone;
 
-            Program.Calc calc = new Program.Calc();
-            calc.Calculate();
+            Program.FullReport inactiveReport = new Program.FullReport();
+            inactiveReport.ReadHeaders(Program.Config.PathOOP);
+            inactiveReport.ReadRecords(Program.Config.PathOOP, 1);
 
-            Program.Exporter exporter = new Program.Exporter();
-            exporter.Destination = Program.Config.DestinationFolderCalculated + @"\first.csv";
-            exporter.Export();
+            Program.FullReport globalReport = new Program.FullReport();
+            globalReport.ReadHeaders(Program.Config.PathPIO, 3);
+            globalReport.ReadRecords(Program.Config.PathPIO, 4);
 
-            //MessageBox.Show(JsonConvert.SerializeObject(data.Records[2]));
+            Program.Summary summary = new Program.Summary(activeReport.Records);
+            summary.CalculateEquityRanges(activeReport.Records, inactiveReport.Records);
+            summary.CalculateCombos(activeReport.Records);
+            summary.AddGlobalReport(globalReport.Records);
+            runWindow.SummingUp.Source = imageDone;
 
+            summary.Export(Program.Config.DestinationFolderSummary + @"\summary.csv");
+            runWindow.ExportingSummary.Source = imageDone;
+
+            runWindow.ResultCalculated.Content = "Calculated available in: " + Program.Config.DestinationFolderCalculated + @"\calculated.csv";
+            runWindow.ResultSummary.Content = "Summary available in: " + Program.Config.DestinationFolderSummary + @"\summary.csv";
         }
     }
 }

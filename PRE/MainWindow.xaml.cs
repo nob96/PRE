@@ -27,9 +27,20 @@ namespace PRE
 
         private void RunAnalysis_Click(object sender, RoutedEventArgs e)
         {
-            RunWindow runWindow = new RunWindow();
-            runWindow.Show();
-            Analyse.Run(runWindow);
+            Validator validator = new Validator(this);
+            
+            if(validator.ErrorMessage.Length > 0)
+            {
+                MessageBox.Show(validator.ErrorMessage);
+            }
+            else
+            {
+                RunWindow runWindow = new RunWindow();
+                runWindow.Show();
+                Analyse analyse = new Analyse();
+                analyse.Run(runWindow);
+            }
+            
         }
 
         private void BrowseIPDest_Click(object sender, RoutedEventArgs e)
@@ -103,6 +114,33 @@ namespace PRE
             fileDialog.Filter = "CSF files(*.csv)|*.csv";
 
             return fileDialog;
+        }
+
+        private void SetOopAsActiveReport_Click(object sender, RoutedEventArgs e)
+        {
+            if(this.CheckboxOOP.IsChecked == true)
+            {
+                Config.ActiveReport = this.PathOOP.Text;
+                this.CheckboxIP.IsEnabled = false;
+                Config.InactiveReport = this.PathIP.Text;
+            }
+            else if (this.CheckboxOOP.IsChecked == false)
+            {
+                this.CheckboxIP.IsEnabled = false;
+            }
+        }
+
+        private void SetIPAsActiveReport_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.CheckboxIP.IsChecked == true)
+            {
+                Config.ActiveReport = this.PathIP.Text;
+                this.CheckboxOOP.IsEnabled = false;
+                Config.InactiveReport = this.PathOOP.Text;
+            }else if(this.CheckboxIP.IsChecked == false)
+            {
+                this.CheckboxOOP.IsEnabled = true;
+            }
         }
     }
 }

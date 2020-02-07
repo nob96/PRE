@@ -5,26 +5,8 @@ using System.Text;
 
 namespace PRE.Program
 {
-    public class Flop
+    class Flop
     {
-        private Data Data;
-
-        public Flop()
-        {
-            this.Data = Data.Instance;
-        }
-
-        public void Categorize()
-        {
-            for (int i = 1; i < this.Data.Records.Count; i++)
-            {
-                Dictionary<string, string> singleRecord = this.Data.Records[i];
-                string flop = singleRecord["Flop"];
-                string category = this.GetCategory(flop);
-                this.Data.Records[i]["FLOP_CATEGORY"] = category;
-            }
-        }
-
         public string GetCategory(string flop)
         {
             Hand hand = new Hand();

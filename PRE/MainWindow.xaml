@@ -7,12 +7,14 @@
         mc:Ignorable="d"
         Title="PRE Piosolver Report Extension Main Window" Height="600" Width="800" ResizeMode="NoResize">
     <Grid>
-        <Grid HorizontalAlignment="Left" Height="150" Margin="30,30,0,0" VerticalAlignment="Top" Width="300">
-            <GroupBox Header="IP (In position)">
-                <WrapPanel HorizontalAlignment="Left" Height="60" Margin="10,60,0,0" VerticalAlignment="Top" Width="265" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}">
+        
+            <Grid HorizontalAlignment="Left" Height="150" Margin="30,30,0,0" VerticalAlignment="Top" Width="300">
+            <GroupBox Header="IP (In position)" Height="150">
+                <WrapPanel HorizontalAlignment="Left" Height="88" Margin="10,35,0,0" VerticalAlignment="Top" Width="265" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}">
                     <Label Content="Path to IP_report-full.csv" Width="265" FontStyle="Italic" FontWeight="Bold"/>
                     <TextBox x:Name="PathIP" TextWrapping="NoWrap" Width="200" Margin="5,5,5,0"/>
                     <Button x:Name="BrowseIP" Content="Browse..." Margin="0,5,0,0" Click="BrowseIP_Click"/>
+                    <CheckBox x:Name="CheckboxIP"  Margin="5,15,0,0" Content="Calculate this report" Click="SetIPAsActiveReport_Click"/>
                 </WrapPanel>
             </GroupBox>
         </Grid>
@@ -29,13 +31,15 @@
 
         <Grid HorizontalAlignment="Left" Height="150" Margin="30,300,0,0" VerticalAlignment="Top" Width="300">
             <GroupBox Header="OOP (Out of position)">
-                <WrapPanel HorizontalAlignment="Left" Height="60" Margin="10,60,0,0" VerticalAlignment="Top" Width="265" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}">
+                <WrapPanel HorizontalAlignment="Left" Height="88" Margin="10,35,0,0" VerticalAlignment="Top" Width="265" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}">
                     <Label Content="Path to OOP_report-full.csv" Width="265" FontStyle="Italic" FontWeight="Bold"/>
                     <TextBox x:Name="PathOOP" TextWrapping="NoWrap" Width="200" Margin="5,5,5,0"/>
                     <Button x:Name="BrowseOOP" Content="Browse..." Margin="0,5,0,0" Click="BrowseOOP_Click"/>
+                    <CheckBox x:Name="CheckboxOOP"  Content="Calculate this report" Margin="5,15,0,0" Click="SetOopAsActiveReport_Click"/>
                 </WrapPanel>
             </GroupBox>
         </Grid>
+        
 
         <Grid HorizontalAlignment="Right" Height="150" Margin="0,300,30,0" VerticalAlignment="Top" Width="300">
             <GroupBox Header="Export destination (Calculated and summary)">

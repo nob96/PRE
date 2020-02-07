@@ -5,10 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PRE"
         mc:Ignorable="d"
-        Title="PRE Piosolver Report Extension Run Window" Height="450" Width="800">
+        Title="PRE Piosolver Report Extension Run Window" Height="450" Width="1000">
     <Grid>
         <Label Content="Progress" HorizontalAlignment="Left" Height="60" Margin="30,30,0,0" VerticalAlignment="Top" Width="700" FontSize="24" FontWeight="Bold"/>
-        <ProgressBar HorizontalAlignment="Left" Height="50" Margin="30,95,0,0" VerticalAlignment="Top" Width="700"/>
 
         <WrapPanel HorizontalAlignment="Left" Height="30" Margin="30,160,0,0" VerticalAlignment="Top" Width="265" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}">
             <Label Content="Reading IP-report..." Height="30" Width="180" FontSize="14" HorizontalAlignment="Left"/>
@@ -17,33 +16,35 @@
 
         <WrapPanel HorizontalAlignment="Left" Height="30" Margin="30,195,0,0" VerticalAlignment="Top" Width="265" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}">
             <Label Content="Categorizing flop..." Height="30" Width="180" FontSize="14"/>
-            <Image Height="30" Width="85" Source="/assets/pending.png"/>
+            <Image Height="30" Width="85" Source="/assets/pending.png" x:Name="CategorizingFlop"/>
         </WrapPanel>
 
         <WrapPanel HorizontalAlignment="Left" Height="30" Margin="30,230,0,0" VerticalAlignment="Top" Width="265" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}">
             <Label Content="Categorizing hand..." Height="30" Width="180" FontSize="14"/>
-            <Image Height="30" Width="85" Source="/assets/pending.png"/>
+            <Image Height="30" Width="85" Source="/assets/pending.png" x:Name="CategorizingHand"/>
         </WrapPanel>
 
         <WrapPanel HorizontalAlignment="Left" Height="30" Margin="30,265,0,0" VerticalAlignment="Top" Width="265" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}">
             <Label Content="Calculating frequency..." Height="30" Width="180" FontSize="14"/>
-            <Image Height="30" Width="85" Source="/assets/pending.png"/>
+            <Image Height="30" Width="85" Source="/assets/pending.png" x:Name="CalculatingFreq"/>
         </WrapPanel>
 
         <WrapPanel HorizontalAlignment="Left" Height="30" Margin="30,300,0,0" VerticalAlignment="Top" Width="265" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}">
             <Label Content="Exporting calculated..." Height="30" Width="180" FontSize="14"/>
-            <Image Height="30" Width="85" Source="/assets/pending.png"/>
+            <Image Height="30" Width="85" Source="/assets/pending.png" x:Name="ExportingCalculated"/>
         </WrapPanel>
 
         <WrapPanel HorizontalAlignment="Left" Height="30" Margin="30,335,0,0" VerticalAlignment="Top" Width="265" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}">
             <Label Content="Summing up..." Height="30" Width="180" FontSize="14"/>
-            <Image Height="30" Width="85" Source="/assets/pending.png"/>
+            <Image Height="30" Width="85" Source="/assets/pending.png" x:Name="SummingUp"/>
         </WrapPanel>
 
         <WrapPanel HorizontalAlignment="Left" Height="30" Margin="30,370,0,0" VerticalAlignment="Top" Width="265" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}">
             <Label Content="Exporting summary..." Height="30" Width="180" FontSize="14"/>
-            <Image Height="30" Width="85" Source="/assets/pending.png"/>
+            <Image Height="30" Width="85" Source="/assets/pending.png" x:Name="ExportingSummary"/>
         </WrapPanel>
+        <Label Content="" HorizontalAlignment="Left" Margin="300,339,0,0" VerticalAlignment="Top" Width="690" Name="ResultCalculated"/>
+        <Label Content="" HorizontalAlignment="Left" Margin="300,374,0,0" VerticalAlignment="Top" Width="690" Name="ResultSummary"/>
 
     </Grid>
 </Window>

@@ -5,24 +5,8 @@ using System.Text;
 
 namespace PRE.Program
 {
-    public class Hand
+    class Hand
     {
-        private Data Data;
-
-        public Hand()
-        {
-            this.Data = Data.Instance;
-        }
-
-        public void Categorize()
-        {
-            for (int i = 1; i < this.Data.Records.Count; i++)
-            {
-                string cards = this.Data.Records[i]["Flop"] + " " + FormatHand(this.Data.Records[i]["Hand"]);
-
-                this.Data.Records[i]["HAND_CATEGORY"] = this.GetCategory(cards);
-            }
-        }
 
         public string GetCategory(string cards)
         {
@@ -52,151 +36,9 @@ namespace PRE.Program
             }
         }
 
-        private bool IsTwoPair(string cards)
+        public string FormatHand(string hand)
         {
-            List<int> cardValues = ConvertCardValuesToInt(cards);
-            List<int> pairList = new List<int>();
-
-            var countPerValue = from bereichsvariable in cardValues
-                                group bereichsvariable by bereichsvariable into grouping
-                                let count = grouping.Count()
-                                orderby count descending
-                                select new { Value = grouping.Key, Count = count };
-
-            foreach (var value in countPerValue)
-            {
-                if (value.Count == 2)
-                {
-                    pairList.Add(value.Value);
-                }
-            }
-
-            if (pairList.Count == 2)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        public bool IsPair(string cards)
-        {
-            List<int> cardValues = ConvertCardValuesToInt(cards);
-
-            var countPerValue = from bereichsvariable in cardValues
-                                group bereichsvariable by bereichsvariable into grouping
-                                let count = grouping.Count()
-                                orderby count descending
-                                select new { Value = grouping.Key, Count = count };
-
-            foreach (var value in countPerValue)
-            {
-
-                if (value.Count == 2)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private string GetPairCategory(string cards)
-        {
-            List<int> cardValues = ConvertCardValuesToInt(cards);
-            List<int> pairList = new List<int>();
-
-            var countPerValue = from bereichsvariable in cardValues
-                                group bereichsvariable by bereichsvariable into grouping
-                                let count = grouping.Count()
-                                orderby count descending
-                                select new { Value = grouping.Key, Count = count };
-
-            int secondPairValue = (from number in cardValues
-                                   orderby number descending
-                                   select number).Distinct().Skip(1).First();
-
-
-
-            int thirdPairValue = (from number in cardValues
-                                  orderby number descending
-                                  select number).Distinct().Skip(2).First();
-
-            foreach (var value in countPerValue)
-            {
-                if (value.Count == 2)
-                {
-                    if (value.Value == cardValues.Max())
-                    {
-                        return "top-pair";
-                    }
-                    else if (value.Value == secondPairValue)
-                    {
-                        return "2nd-Pair";
-                    }
-                    else if (value.Value == thirdPairValue)
-                    {
-                        return "3rd-pair";
-                    }
-                    else
-                    {
-                        return "low-pair";
-                    }
-                }
-            }
-            return "Nothing";
-        }
-
-        private bool IsFlushDraw(string cards)
-        {
-            List<char> colors = new List<char>();
-
-            foreach (string color in cards.Split(" "))
-            {
-                colors.Add(color[1]);
-            }
-
-            var countPerColor = from bereichsvariable in colors
-                                group bereichsvariable by bereichsvariable into grouping
-                                let count = grouping.Count()
-                                orderby count descending
-                                select new { Value = grouping.Key, Count = count };
-
-            foreach (var x in countPerColor)
-            {
-                if (x.Count >= 4)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private bool IsSet(string gameCards)
-        {
-            List<char> values = new List<char>();
-
-            foreach (string color in gameCards.Split(" "))
-            {
-                values.Add(color[0]);
-            }
-
-            var countPerValue = from bereichsvariable in values
-                                group bereichsvariable by bereichsvariable into grouping
-                                let count = grouping.Count()
-                                orderby count descending
-                                select new { Value = grouping.Key, Count = count };
-
-            foreach (var x in countPerValue)
-            {
-                if (x.Count == 3)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return hand.Insert(2, " ");
         }
 
         public bool IsStraightDraw(string cards, bool straigthDrawOnFlop = false)
@@ -281,9 +123,151 @@ namespace PRE.Program
             return cardValues;
         }
 
-        public string FormatHand(string hand)
+        private bool IsSet(string gameCards)
         {
-            return hand.Insert(2, " ");
+            List<char> values = new List<char>();
+
+            foreach (string color in gameCards.Split(" "))
+            {
+                values.Add(color[0]);
+            }
+
+            var countPerValue = from bereichsvariable in values
+                                group bereichsvariable by bereichsvariable into grouping
+                                let count = grouping.Count()
+                                orderby count descending
+                                select new { Value = grouping.Key, Count = count };
+
+            foreach (var x in countPerValue)
+            {
+                if (x.Count == 3)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool IsFlushDraw(string cards)
+        {
+            List<char> colors = new List<char>();
+
+            foreach (string color in cards.Split(" "))
+            {
+                colors.Add(color[1]);
+            }
+
+            var countPerColor = from bereichsvariable in colors
+                                group bereichsvariable by bereichsvariable into grouping
+                                let count = grouping.Count()
+                                orderby count descending
+                                select new { Value = grouping.Key, Count = count };
+
+            foreach (var x in countPerColor)
+            {
+                if (x.Count >= 4)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private string GetPairCategory(string cards)
+        {
+            List<int> cardValues = ConvertCardValuesToInt(cards);
+            List<int> pairList = new List<int>();
+
+            var countPerValue = from bereichsvariable in cardValues
+                                group bereichsvariable by bereichsvariable into grouping
+                                let count = grouping.Count()
+                                orderby count descending
+                                select new { Value = grouping.Key, Count = count };
+
+            int secondPairValue = (from number in cardValues
+                                   orderby number descending
+                                   select number).Distinct().Skip(1).First();
+
+
+
+            int thirdPairValue = (from number in cardValues
+                                  orderby number descending
+                                  select number).Distinct().Skip(2).First();
+
+            foreach (var value in countPerValue)
+            {
+                if (value.Count == 2)
+                {
+                    if (value.Value == cardValues.Max())
+                    {
+                        return "top-pair";
+                    }
+                    else if (value.Value == secondPairValue)
+                    {
+                        return "2nd-Pair";
+                    }
+                    else if (value.Value == thirdPairValue)
+                    {
+                        return "3rd-pair";
+                    }
+                    else
+                    {
+                        return "low-pair";
+                    }
+                }
+            }
+            return "Nothing";
+        }
+
+        public bool IsPair(string cards)
+        {
+            List<int> cardValues = ConvertCardValuesToInt(cards);
+
+            var countPerValue = from bereichsvariable in cardValues
+                                group bereichsvariable by bereichsvariable into grouping
+                                let count = grouping.Count()
+                                orderby count descending
+                                select new { Value = grouping.Key, Count = count };
+
+            foreach (var value in countPerValue)
+            {
+
+                if (value.Count == 2)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool IsTwoPair(string cards)
+        {
+            List<int> cardValues = ConvertCardValuesToInt(cards);
+            List<int> pairList = new List<int>();
+
+            var countPerValue = from bereichsvariable in cardValues
+                                group bereichsvariable by bereichsvariable into grouping
+                                let count = grouping.Count()
+                                orderby count descending
+                                select new { Value = grouping.Key, Count = count };
+
+            foreach (var value in countPerValue)
+            {
+                if (value.Count == 2)
+                {
+                    pairList.Add(value.Value);
+                }
+            }
+
+            if (pairList.Count == 2)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

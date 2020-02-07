@@ -6,6 +6,18 @@ namespace PRE.Program
 {
     public static class Config
     {
+        public static string ActiveReport
+        {
+            get;
+            set;
+        }
+
+        public static string InactiveReport
+        {
+            get;
+            set;
+        }
+
         public static string PathIP
         {
             get;
