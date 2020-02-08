@@ -71,24 +71,21 @@ namespace PRE.Program
         {
             Flop flop = new Flop();
             Hand hand = new Hand();
+            
             this.Headers.Add("FLOP_CATEGORY");
+            this.Headers.Add("FLOP_HIGHCARD");
             this.Headers.Add("HAND_CATEGORY");
 
-            //Flop
             for (int i = 0; i < this.Records.Count; i++)
             {
-                Dictionary<string, string> singleRecord = this.Records[i];
-                string flopCards = singleRecord["Flop"];
+                string flopCards = this.Records[i]["Flop"];
                 string category = flop.GetCategory(flopCards);
+                List<int> cardValuesFlop = hand.ConvertCardValuesToInt(flopCards);
+                string gameCards = this.Records[i]["Flop"] + " " + hand.FormatHand(this.Records[i]["Hand"]);
+
                 this.Records[i]["FLOP_CATEGORY"] = category;
-            }
-
-            //Hand
-            for (int i = 0; i < this.Records.Count; i++)
-            {
-                string cards = this.Records[i]["Flop"] + " " + hand.FormatHand(this.Records[i]["Hand"]);
-
-                this.Records[i]["HAND_CATEGORY"] = hand.GetCategory(cards);
+                this.Records[i]["FLOP_HIGHCARD"] = hand.ConvertIntToCard(cardValuesFlop.Max());
+                this.Records[i]["HAND_CATEGORY"] = hand.GetCategory(gameCards);
             }
         }
 

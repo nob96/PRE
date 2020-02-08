@@ -77,7 +77,7 @@ namespace PRE.Program
             return cardCounter == 4;
         }
 
-        private List<int> ConvertCardValuesToInt(string cards)
+        public List<int> ConvertCardValuesToInt(string cards)
         {
             string[] gameCardsSplitted = cards.Split();
             List<int> cardValues = new List<int>();
@@ -121,6 +121,37 @@ namespace PRE.Program
             }
 
             return cardValues;
+        }
+
+        public string ConvertIntToCard(int cardValue)
+        {
+            switch (cardValue)
+            {
+                case 14:
+                    {
+                        return "A";
+                    }
+                case 13:
+                    {
+                        return "K";
+                    }
+                case 12:
+                    {
+                        return "Q";
+                    }
+                case 11:
+                    {
+                        return "J";
+                    }
+                case 10:
+                    {
+                        return "T";
+                    }
+                default:
+                    {
+                        return cardValue.ToString();
+                    }
+            }
         }
 
         private bool IsSet(string gameCards)
