@@ -64,7 +64,7 @@ namespace PRE.Program
         {
             if(this.MainWindow.CheckboxIP.IsChecked == false && this.MainWindow.CheckboxOOP.IsChecked == false)
             {
-                this.ErrorMessage = "No report was selected for the calculation. Please select one.";
+                this.ErrorMessage = "No report was selected for calculation. Please select one.";
             }
         }
     }

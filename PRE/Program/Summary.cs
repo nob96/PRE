@@ -57,21 +57,19 @@ namespace PRE.Program
 
         }
 
-        public void CalculateEquityRanges(Dictionary<int, Dictionary<string, string>> activeRecords, Dictionary<int, Dictionary<string, string>> inactiveRecords)
+        public void CalculateEquityRanges(Dictionary<int, Dictionary<string, string>> records)
         {
-            
-            //active Records
             foreach (var flop in this._records.Keys)
             {
-                for (int i = 1; i < activeRecords.Count; i++)
+                for (int i = 1; i < records.Count; i++)
                 {
-                    string equityKey = activeRecords[i].ContainsKey("IP Equity") ? "IP Equity" : "OOP Equity";
-                    string weightKey = activeRecords[i].ContainsKey("Weight IP") ? "Weight IP" : "Weight OOP";
-                    string type = activeRecords[i].ContainsKey("IP Equity") ? "IP" : "OOP";
+                    string equityKey = records[i].ContainsKey("IP Equity") ? "IP Equity" : "OOP Equity";
+                    string weightKey = records[i].ContainsKey("Weight IP") ? "Weight IP" : "Weight OOP";
+                    string type = records[i].ContainsKey("IP Equity") ? "IP" : "OOP";
 
-                    if (activeRecords[i]["Flop"] == flop)
+                    if (records[i]["Flop"] == flop)
                     {
-                        float equity = float.Parse(activeRecords[i][equityKey]);
+                        float equity = float.Parse(records[i][equityKey]);
 
                         foreach (KeyValuePair<int, int> range in this.EquityRange)
                         {
@@ -80,43 +78,14 @@ namespace PRE.Program
 
                             if (equity >= range.Value && equity <= range.Key)
                             {
-                                float newValue = float.Parse(this._records[flop][ipKey]) + float.Parse(activeRecords[i][weightKey]);
+                                float newValue = float.Parse(this._records[flop][ipKey]) + float.Parse(records[i][weightKey]);
                                 this._records[flop][ipKey] = newValue.ToString();
                             }
                         }
                     }
                 }
             }
-
-            //inactive Records
-            foreach (var flop in this._records.Keys)
-            {
-                for (int i = 1; i < inactiveRecords.Count; i++)
-                {
-                    string equityKey = inactiveRecords[i].ContainsKey("OOP Equity") ? "OOP Equity" : "IP Equity";
-                    string weightKey = inactiveRecords[i].ContainsKey("Weight OOP") ? "Weight OOP" : "Weight IP";
-                    string type = inactiveRecords[i].ContainsKey("OOP Equity") ? "OOP" : "IP";
-
-                    if (inactiveRecords[i]["Flop"] == flop)
-                    {
-                        float equity = float.Parse(inactiveRecords[i][equityKey]);
-
-                        foreach (KeyValuePair<int, int> range in this.EquityRange)
-                        {
-                            string oopKey = type + " " + range.Key.ToString() + "-" + range.Value.ToString() + "%";
-
-
-                            if (equity >= range.Value && equity <= range.Key)
-                            {
-                                float newValue = float.Parse(this._records[flop][oopKey]) + float.Parse(inactiveRecords[i][weightKey]);
-                                this._records[flop][oopKey] = newValue.ToString();
-                            }
-                        }
-                    }
-                }
-            }
         }
-
         public void CalculateCombos(Dictionary<int, Dictionary<string, string>> activeRecord)
         {
             Hand hand = new Hand();

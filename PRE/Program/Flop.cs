@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PRE.Program
 {
-    class Flop
+    public class Flop
     {
         public string GetCategory(string flop)
         {

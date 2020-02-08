@@ -34,7 +34,9 @@ namespace PRE
             globalReport.ReadRecords(Program.Config.PathPIO, 4);
 
             Program.Summary summary = new Program.Summary(activeReport.Records);
-            summary.CalculateEquityRanges(activeReport.Records, inactiveReport.Records);
+            summary.CalculateEquityRanges(activeReport.Records);
+            summary.CalculateEquityRanges(inactiveReport.Records);
+
             summary.CalculateCombos(activeReport.Records);
             summary.AddGlobalReport(globalReport.Records);
             runWindow.SummingUp.Source = imageDone;

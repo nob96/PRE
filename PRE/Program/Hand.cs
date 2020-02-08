@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PRE.Program
 {
-    class Hand
+    public class Hand
     {
 
         public string GetCategory(string cards)
