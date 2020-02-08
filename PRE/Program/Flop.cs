@@ -21,44 +21,42 @@ namespace PRE.Program
 
             if (flopColors.All(color => color == flopColors.First()))
             {
-                if (hand.IsPair(flop))
-                {
-                    return "Paired Monotone";
-                }
-                else if (hand.IsStraightDraw(flop, true))
-                {
-                    return "Straightdraw Monotone";
-                }
-
                 return "Monotone";
 
             }
             else if (flopColors.Distinct().Count() == flopColors.Count())
             {
-                if (hand.IsPair(flop))
-                {
-                    return "Paired Rainbow";
-                }
-                else if (hand.IsStraightDraw(flop, true))
-                {
-                    return "Straightdraw Rainbow";
-                }
-
                 return "Rainbow";
             }
             else
             {
-                if (hand.IsPair(flop))
-                {
-                    return "Paired Twotone";
-                }
-                else if (hand.IsStraightDraw(flop, true))
-                {
-                    return "Straightdraw Twotone";
-                }
-
                 return "Twotone";
             }
         }
+
+        public string IsPaired(string flop)
+        {
+            Hand hand = new Hand();
+
+            if (hand.IsPair(flop))
+            {
+                return "YES";
+            }
+
+            return "NO";
+        }
+
+        public string IsStraightdraw(string flop)
+        {
+            Hand hand = new Hand();
+
+            if (hand.IsStraightDraw(flop))
+            {
+                return "YES";
+            }
+
+            return "NO";
+        }
+
     }
 }

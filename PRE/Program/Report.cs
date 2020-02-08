@@ -73,6 +73,8 @@ namespace PRE.Program
             Hand hand = new Hand();
             
             this.Headers.Add("FLOP_CATEGORY");
+            this.Headers.Add("PAIRED");
+            this.Headers.Add("STRAIGHTDRAW");
             this.Headers.Add("FLOP_HIGHCARD");
             this.Headers.Add("HAND_CATEGORY");
 
@@ -84,6 +86,8 @@ namespace PRE.Program
                 string gameCards = this.Records[i]["Flop"] + " " + hand.FormatHand(this.Records[i]["Hand"]);
 
                 this.Records[i]["FLOP_CATEGORY"] = category;
+                this.Records[i]["PAIRED"] = flop.IsPaired(flopCards);
+                this.Records[i]["STRAIGHTDRAW"] = flop.IsStraightdraw(flopCards);
                 this.Records[i]["FLOP_HIGHCARD"] = hand.ConvertIntToCard(cardValuesFlop.Max());
                 this.Records[i]["HAND_CATEGORY"] = hand.GetCategory(gameCards);
             }
