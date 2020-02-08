@@ -10,14 +10,14 @@ namespace PRE
         public void Run(RunWindow runWindow)
         {
             BitmapImage imageDone = new BitmapImage(new Uri("/assets/done.png", UriKind.Relative));
-            Program.FullReport activeReport = new Program.FullReport();
+            Program.ActiveReport activeReport = new Program.ActiveReport();
 
             activeReport.ReadHeaders(Program.Config.ActiveReport);
             activeReport.ReadRecords(Program.Config.ActiveReport, 1);
             runWindow.ReadingIPReport.Source = imageDone;
 
             activeReport.CalculateCategories();
-            activeReport.CalculateFreqActions();
+            activeReport.CalculateActionFrequency();
             runWindow.CategorizingFlop.Source = imageDone;
             runWindow.CategorizingHand.Source = imageDone;
             runWindow.CalculatingFreq.Source = imageDone;
@@ -25,15 +25,17 @@ namespace PRE
             activeReport.Export(Program.Config.DestinationFolderCalculated + @"\calculated.csv");
             runWindow.ExportingCalculated.Source = imageDone;
 
-            Program.FullReport inactiveReport = new Program.FullReport();
+            Program.ActiveReport inactiveReport = new Program.ActiveReport();
             inactiveReport.ReadHeaders(Program.Config.PathOOP);
             inactiveReport.ReadRecords(Program.Config.PathOOP, 1);
 
-            Program.FullReport globalReport = new Program.FullReport();
+            Program.ActiveReport globalReport = new Program.ActiveReport();
             globalReport.ReadHeaders(Program.Config.PathPIO, 3);
             globalReport.ReadRecords(Program.Config.PathPIO, 4);
 
-            Program.Summary summary = new Program.Summary(activeReport.Records);
+            Program.Summary summary = new Program.Summary();
+            summary.FormatRecords(activeReport.Records);
+
             summary.CalculateEquityRanges(activeReport.Records);
             summary.CalculateEquityRanges(inactiveReport.Records);
 

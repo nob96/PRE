@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace PRE.Program
 {
-    class Summary
+    public class Summary
     {
         private Dictionary<string, Dictionary<string, string>> _records;
         private Dictionary<int, int> EquityRange;
@@ -25,7 +25,7 @@ namespace PRE.Program
             }
         }
 
-        public Summary(Dictionary<int, Dictionary<string, string>> activeRecords)
+        public Summary()
         {
             this._records = new Dictionary<string, Dictionary<string, string>>();
             this.EquityRange = new Dictionary<int, int>();
@@ -51,10 +51,6 @@ namespace PRE.Program
             this.EquityRange.Add(15, 10);
             this.EquityRange.Add(10, 5);
             this.EquityRange.Add(5, 0);
-
-            this.FormatRecords(activeRecords);
-
-
         }
 
         public void CalculateEquityRanges(Dictionary<int, Dictionary<string, string>> records)
@@ -126,6 +122,82 @@ namespace PRE.Program
             }
         }
 
+        public void FormatRecords(Dictionary<int, Dictionary<string, string>> activeRecords)
+        {
+            List<string> flopList = this.GenerateUniqueFlopList(activeRecords);
+            List<string> actionList = this.GenerateActionList(activeRecords);
+            Hand hand = new Hand();
+            Flop flop = new Flop();
+
+            foreach (var flop1 in flopList)
+            {
+                this._records.Add(flop1, new Dictionary<string, string>());
+                string flopCategory = flop.GetCategory(flop1);
+                int highCard = hand.ConvertCardValuesToInt(flop1).Max();
+                string highCardConverted = hand.ConvertIntToCard(highCard);
+
+                this._records[flop1].Add("FLOP_CATEGORY", flopCategory);
+                this._records[flop1].Add("PAIRED", flop.IsPaired(flop1));
+                this._records[flop1].Add("STRAIGHTDRAW", flop.IsStraightdraw(flop1));
+                this._records[flop1].Add("FLOP_HIGHCARD", highCardConverted);
+
+                foreach (var value in actionList)
+                {
+                    this._records[flop1].Add(value, "0");
+                }
+
+                foreach (KeyValuePair<int, int> range in this.EquityRange)
+                {
+                    string ipKey = "IP " + range.Key.ToString() + "-" + range.Value.ToString() + "%";
+                    string oopKey = "OOP " + range.Key.ToString() + "-" + range.Value.ToString() + "%";
+
+                    this._records[flop1].Add(ipKey, "0");
+                    this._records[flop1].Add(oopKey, "0");
+                }
+            }
+        }
+
+        private List<string> GenerateUniqueFlopList(Dictionary<int, Dictionary<string, string>> activeRecords)
+        {
+            List<string> flopList = new List<string>();
+
+            for (int i = 1; i < activeRecords.Count; i++)
+            {
+                flopList.Add(activeRecords[i]["Flop"]);
+            }
+
+            return flopList.Distinct().ToList();
+        }
+
+        private List<string> GenerateActionList(Dictionary<int, Dictionary<string, string>> activeRecords)
+        {
+            Hand hand = new Hand();
+            List<string> actionList = new List<string>();
+
+            for (int i = 1; i < activeRecords.Count; i++)
+            {
+                string gameCards = activeRecords[i]["Flop"] + " " + hand.FormatHand(activeRecords[i]["Hand"]);
+                string handCategory = hand.GetCategory(gameCards);
+
+                foreach (var field in activeRecords[i])
+                {
+                    
+                    if (field.Key.Contains("EV") == false && field.Key.Contains("calculated"))
+                    {
+                        string key = handCategory + " " + field.Key.Replace("Freq", "Combos");
+
+                        if (actionList.Contains(key) == false)
+                        {
+                            actionList.Add(key);
+                        }
+                    }
+
+                }
+            }
+            
+            return actionList;
+        }
+
         public void Export(string destination)
         {
             //Headers
@@ -168,87 +240,6 @@ namespace PRE.Program
 
                 csvWriter.NextRecord();
             }
-        }
-
-        private void FormatRecords(Dictionary<int, Dictionary<string, string>> activeRecords)
-        {
-            List<string> flopList = new List<string>();
-            Hand hand = new Hand();
-
-            //Flop list
-            for (int i = 1; i < activeRecords.Count; i++)
-            {
-                flopList.Add(activeRecords[i]["Flop"]);
-            }
-
-            foreach (var flop in flopList.Distinct().ToList())
-            {
-                this._records.Add(flop, new Dictionary<string, string>());
-            }
-
-            //Flop Category
-            Flop objFlop = new Flop();
-
-            foreach (var flop1 in flopList.Distinct().ToList())
-            {
-                string flopCategory = objFlop.GetCategory(flop1);
-                int highCard = hand.ConvertCardValuesToInt(flop1).Max();
-                string highCardConverted = hand.ConvertIntToCard(highCard);
-
-                this._records[flop1].Add("FLOP_CATEGORY", flopCategory);
-                this._records[flop1].Add("PAIRED", objFlop.IsPaired(flop1));
-                this._records[flop1].Add("STRAIGHTDRAW", objFlop.IsStraightdraw(flop1));
-                this._records[flop1].Add("FLOP_HIGHCARD", highCardConverted);
-            }
-
-            //Calced combos
-            List<string> tmp = new List<string>();
-
-            for (int i = 1; i < activeRecords.Count; i++)
-            {
-
-                string gameCards = activeRecords[i]["Flop"] + " " + hand.FormatHand(activeRecords[i]["Hand"]);
-                string handCategory = hand.GetCategory(gameCards);
-
-                foreach (var field in activeRecords[i])
-                {
-
-                    if (field.Key.Contains("EV") == false && field.Key.Contains("calculated"))
-                    {
-                        string key = handCategory + " " + field.Key.Replace("Freq", "Combos");
-
-                        if (tmp.Contains(key) == false)
-                        {
-                            tmp.Add(key);
-                        }
-                    }
-
-                }
-            }
-
-            foreach (var flop in flopList.Distinct().ToList())
-            {
-                foreach (var value in tmp)
-                {
-                    this._records[flop].Add(value, "0");
-                }
-
-            }
-
-            //Equity range
-            foreach (var flop in flopList.Distinct().ToList())
-            {
-
-                foreach (KeyValuePair<int, int> range in this.EquityRange)
-                {
-                    string ipKey = "IP " + range.Key.ToString() + "-" + range.Value.ToString() + "%";
-                    string oopKey = "OOP " + range.Key.ToString() + "-" + range.Value.ToString() + "%";
-
-                    this._records[flop].Add(ipKey, "0");
-                    this._records[flop].Add(oopKey, "0");
-                }
-            }
-
         }
     }
 }

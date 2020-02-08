@@ -1,12 +1,14 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows;
 
 namespace PRE.Program
 {
-    abstract class Report
+    public abstract class Report
     {
         private List<string> _headers;
         private Dictionary<int, Dictionary<string, string>> _records;
@@ -93,7 +95,7 @@ namespace PRE.Program
             }
         }
 
-        public void CalculateFreqActions()
+        public void CalculateActionFrequency()
         {
             //Append headers
             List<string> tmp = new List<string>();
