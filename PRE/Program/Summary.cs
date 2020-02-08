@@ -204,6 +204,7 @@ namespace PRE.Program
         private void FormatRecords(Dictionary<int, Dictionary<string, string>> activeRecords)
         {
             List<string> flopList = new List<string>();
+            Hand hand = new Hand();
 
             //Flop list
             for (int i = 1; i < activeRecords.Count; i++)
@@ -222,11 +223,16 @@ namespace PRE.Program
             foreach (var flop1 in flopList.Distinct().ToList())
             {
                 string flopCategory = objFlop.GetCategory(flop1);
+                int highCard = hand.ConvertCardValuesToInt(flop1).Max();
+                string highCardConverted = hand.ConvertIntToCard(highCard);
+
                 this._records[flop1].Add("FLOP_CATEGORY", flopCategory);
+                this._records[flop1].Add("PAIRED", objFlop.IsPaired(flop1));
+                this._records[flop1].Add("STRAIGHTDRAW", objFlop.IsStraightdraw(flop1));
+                this._records[flop1].Add("FLOP_HIGHCARD", highCardConverted);
             }
 
             //Calced combos
-            Hand hand = new Hand();
             List<string> tmp = new List<string>();
 
             for (int i = 1; i < activeRecords.Count; i++)
