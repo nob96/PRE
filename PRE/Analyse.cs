@@ -39,6 +39,9 @@ namespace PRE
             summary.CalculateEquityRanges(activeReport.Records);
             summary.CalculateEquityRanges(inactiveReport.Records);
 
+            summary.CalculateNutsAdvantage(activeReport.Records);
+            summary.CalculateNutsAdvantage(inactiveReport.Records);
+
             summary.CalculateCombos(activeReport.Records);
             summary.AddGlobalReport(globalReport.Records);
             runWindow.SummingUp.Source = imageDone;
