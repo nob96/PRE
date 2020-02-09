@@ -145,11 +145,11 @@ namespace PRE.Program
 
                     this._records[flop].Add("IP 100-80% Equity", ipEquityNuts.ToString());
                     this._records[flop].Add("Gesamte Anzahl Combos IP", ipGesamt.ToString());
-                    this._records[flop].Add("IP Nuts Advantage", ipNutsAdvantage.ToString());
+                    this._records[flop].Add("IP Nuts Percentage", ipNutsAdvantage.ToString());
 
                     this._records[flop].Add("OOP 100-80% Equity", oopEquityNuts.ToString());
                     this._records[flop].Add("Gesamte Anzahl Combos OOP", oopGesamt.ToString());
-                    this._records[flop].Add("OOP Nuts Advantage", oopNutsAdvantage.ToString());
+                    this._records[flop].Add("OOP Nuts Percentage", oopNutsAdvantage.ToString());
 
                     this._records[flop].Add("Nuts Advantage Ratio", nutsRatio.ToString());
 
