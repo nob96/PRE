@@ -106,6 +106,74 @@ namespace PRE.Program
             }
         }
 
+        public void CalculateNutsAdvantage(Dictionary<int, Dictionary<string, string>> records)
+        {
+            float ipEquityNuts = 0;
+            float oopEquityNuts = 0;
+            List<string> ipEquities = new List<string>();
+            List<string> oopEquities = new List<string>();
+
+            ipEquities.Add("IP 100-95%");
+            ipEquities.Add("IP 95-90%");
+            ipEquities.Add("IP 90-85%");
+            ipEquities.Add("IP 85-80%");
+
+            oopEquities.Add("OOP 100-95%");
+            oopEquities.Add("OOP 95-90%");
+            oopEquities.Add("OOP 90-85%");
+            oopEquities.Add("OOP 85-80%");
+
+            foreach (string flop in this._records.Keys)
+            {
+                foreach (string ipEquityKey in ipEquities)
+                {
+                    ipEquityNuts += float.Parse(this._records[flop][ipEquityKey]);
+                }
+
+                foreach (string oopEquityKey in oopEquities)
+                {
+                    oopEquityNuts += float.Parse(this._records[flop][oopEquityKey]);
+                }
+
+                if (this._records[flop].ContainsKey("IP 100-80% Equity") == false && this._records[flop].ContainsKey("OOP 100-80% Equity") == false)
+                {
+                    float ipGesamt = this.GetAnzahlCombos(flop, "IP");
+                    float oopGesamt = this.GetAnzahlCombos(flop, "OOP");
+                    float ipNutsAdvantage = ipEquityNuts / ipGesamt;
+                    float oopNutsAdvantage = oopEquityNuts / oopGesamt;
+                    float nutsRatio = ipNutsAdvantage / oopNutsAdvantage;
+
+                    this._records[flop].Add("IP 100-80% Equity", ipEquityNuts.ToString());
+                    this._records[flop].Add("Gesamte Anzahl Combos IP", ipGesamt.ToString());
+                    this._records[flop].Add("IP Nuts Advantage", ipNutsAdvantage.ToString());
+
+                    this._records[flop].Add("OOP 100-80% Equity", oopEquityNuts.ToString());
+                    this._records[flop].Add("Gesamte Anzahl Combos OOP", oopGesamt.ToString());
+                    this._records[flop].Add("OOP Nuts Advantage", oopNutsAdvantage.ToString());
+
+                    this._records[flop].Add("Nuts Advantage Ratio", nutsRatio.ToString());
+
+
+                }
+
+                ipEquityNuts = 0;
+                oopEquityNuts = 0;
+            }
+        }
+
+        private float GetAnzahlCombos(string flop, string position = "IP")
+        {
+            float gesamteComboAnzahl = 0;
+
+            foreach (KeyValuePair<int, int> range in this.EquityRange)
+            {
+                string equityKey = position + " " + range.Key.ToString() + "-" + range.Value.ToString() + "%";
+                gesamteComboAnzahl += float.Parse(this._records[flop][equityKey]);
+            }
+
+            return gesamteComboAnzahl;
+        }
+
         public void AddGlobalReport(Dictionary<int, Dictionary<string, string>> globalReport)
         {
             for (int i = 0; i < globalReport.Count - 1; i++)
