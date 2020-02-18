@@ -28,6 +28,8 @@ namespace PRETest
             string expectedComboKey = "Flushdraw CHECK Combos calculated";
             string expectedIPEquityKey = "IP 10-5%";
             string expectedOOPEquityKey = "OOP 100-95%";
+            string expectedConnectnessLevel = "0";
+            string flopConnectnessLevel = "4h 2s 2d";
 
             this.Summary.FormatRecords(this.ActiveReport.Records);
 
@@ -35,6 +37,7 @@ namespace PRETest
             Assert.IsTrue(this.Summary.Records[expectedFlopKey].ContainsKey(expectedIPEquityKey));
             Assert.IsTrue(this.Summary.Records[expectedFlopKey].ContainsKey(expectedOOPEquityKey));
             Assert.IsTrue(this.Summary.Records[expectedFlopKey].ContainsKey(expectedComboKey));
+            Assert.AreEqual(expectedConnectnessLevel, this.Summary.Records[flopConnectnessLevel]["CONNECTNESS_LEVEL"]);
         }
 
         [TestMethod]

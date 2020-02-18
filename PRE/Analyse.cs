@@ -51,6 +51,8 @@ namespace PRE
 
             runWindow.ResultCalculated.Content = "Calculated available in: " + Program.Config.DestinationFolderCalculated + @"\calculated.csv";
             runWindow.ResultSummary.Content = "Summary available in: " + Program.Config.DestinationFolderSummary + @"\summary.csv";
+            
+
         }
     }
 }

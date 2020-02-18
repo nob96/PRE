@@ -208,6 +208,7 @@ namespace PRE.Program
                 this._records[flop1].Add("PAIRED", flop.IsPaired(flop1));
                 this._records[flop1].Add("STRAIGHTDRAW", flop.IsStraightdraw(flop1));
                 this._records[flop1].Add("FLOP_HIGHCARD", highCardConverted);
+                this._records[flop1].Add("CONNECTNESS_LEVEL", hand.GetConnectnessLevel(flop1).ToString());
 
                 foreach (var value in actionList)
                 {

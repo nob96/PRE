@@ -45,38 +45,8 @@ namespace PRE.Program
 
         public bool IsStraightDraw(string cards, bool straigthDrawOnFlop = false)
         {
-            List<int> cardValues = ConvertCardValuesToInt(cards);
-            cardValues.Sort();
-            int cardCounter = 0;
+            return this.GetConnectnessLevel(cards) > 0;
 
-            for (int i = 0; i < cardValues.Count - 1; i++)
-            {
-
-                if ((cardValues[i] + 1 == cardValues[i + 1]))
-                {
-                    cardCounter++;
-                }
-            }
-
-
-            if (straigthDrawOnFlop)
-            {
-                //Spezialfall flop
-                if (cardValues.Contains(14) && cardValues.Contains(2) && cardValues.Contains(3))
-                {
-                    return cardCounter == 3 || cardValues.Sum() == 19;
-                }
-
-                return cardCounter == 3;
-            }
-
-            //Spezialfall
-            if (cardValues.Contains(14) && cardValues.Contains(2) && cardValues.Contains(3) && cardValues.Contains(4))
-            {
-                return true;
-            }
-
-            return cardCounter == 4;
         }
 
         public List<int> ConvertCardValuesToInt(string cards)
@@ -154,6 +124,29 @@ namespace PRE.Program
                         return cardValue.ToString();
                     }
             }
+        }
+
+        public int GetConnectnessLevel(string flop)
+        {
+            List<int> values = this.ConvertCardValuesToInt(flop);
+            values = values.Distinct().ToList();
+
+            if(values.Count >= 3)
+            {
+                int diffrence = values.Max() - values.Min();
+
+                switch (diffrence)
+                {
+                    case 2:
+                        return 3;
+                    case 3:
+                        return 2;
+                    case 4:
+                        return 1;
+                }
+            }
+
+            return 0;
         }
 
         private bool IsSet(string gameCards)

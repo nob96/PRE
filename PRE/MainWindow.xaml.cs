@@ -21,12 +21,14 @@ namespace PRE
     {
 
         public MainWindow()
-        {
+        {    
             InitializeComponent();
         }
 
         private void RunAnalysis_Click(object sender, RoutedEventArgs e)
         {
+            Program.Hand hand = new Program.Hand();
+            hand.GetConnectnessLevel("J87");
             Validator validator = new Validator(this);
             
             if(validator.ErrorMessage.Length > 0)
