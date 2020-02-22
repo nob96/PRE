@@ -20,6 +20,10 @@ namespace PRE.Program
             {
                 return "Set";
             }
+            else if (IsQuads(cards))
+            {
+                return "Quads";
+            }
             else if (IsStraightDraw(cards))
             {
                 return "Straightdraw";
@@ -158,6 +162,32 @@ namespace PRE.Program
             }
 
             return 0;
+        }
+
+        public bool IsQuads(string gameCards)
+        {
+            List<char> values = new List<char>();
+
+            foreach (string color in gameCards.Split(" "))
+            {
+                values.Add(color[0]);
+            }
+
+            var countPerValue = from bereichsvariable in values
+                                group bereichsvariable by bereichsvariable into grouping
+                                let count = grouping.Count()
+                                orderby count descending
+                                select new { Value = grouping.Key, Count = count };
+
+            foreach (var x in countPerValue)
+            {
+                if (x.Count == 4)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private bool IsSet(string gameCards)

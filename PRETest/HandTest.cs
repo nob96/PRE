@@ -31,5 +31,15 @@ namespace PRETest
 
             Assert.AreEqual(expectedConnectnessLevel, hand.GetConnectnessLevel(flop));
         }
+
+        [TestMethod]
+        public void IsQuads()
+        {
+            Hand hand = new Hand();
+            string gameCards = "3s 3h 3d 3c Ad";
+            bool expected = true;
+
+            Assert.AreEqual(expected, hand.IsQuads(gameCards));
+        }
     }
 }
