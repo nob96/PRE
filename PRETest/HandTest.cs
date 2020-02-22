@@ -21,5 +21,15 @@ namespace PRETest
 
             Assert.AreEqual(expectedCategory, this.Hand.GetCategory(cards));
         }
+
+        [TestMethod]
+        public void GetConnectnessLevel()
+        {
+            Hand hand = new Hand();
+            string flop = "Ah 3s 2d";
+            int expectedConnectnessLevel = 3;
+
+            Assert.AreEqual(expectedConnectnessLevel, hand.GetConnectnessLevel(flop));
+        }
     }
 }

@@ -129,6 +129,17 @@ namespace PRE.Program
         public int GetConnectnessLevel(string flop)
         {
             List<int> values = this.ConvertCardValuesToInt(flop);
+            //Spezialfall A = 1
+            
+            if (values.Contains(14))
+            {
+                if(values.OrderByDescending(r => r).Skip(1).FirstOrDefault() <= 5)
+                {
+                    values[values.FindIndex(ind => ind.Equals(14))] = 1;
+                }
+            }
+            
+
             values = values.Distinct().ToList();
 
             if(values.Count >= 3)
