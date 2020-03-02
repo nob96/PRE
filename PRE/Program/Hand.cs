@@ -155,6 +155,11 @@ namespace PRE.Program
                     case 2:
                         return 3;
                     case 3:
+                        //Spezialfall Ace
+                        if(values.Min() == 1)
+                        {
+                            return 1;
+                        }
                         return 2;
                     case 4:
                         return 1;
