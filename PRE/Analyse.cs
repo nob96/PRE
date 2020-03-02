@@ -26,8 +26,8 @@ namespace PRE
             runWindow.ExportingCalculated.Source = imageDone;
 
             Program.ActiveReport inactiveReport = new Program.ActiveReport();
-            inactiveReport.ReadHeaders(Program.Config.PathOOP);
-            inactiveReport.ReadRecords(Program.Config.PathOOP, 1);
+            inactiveReport.ReadHeaders(Program.Config.InactiveReport);
+            inactiveReport.ReadRecords(Program.Config.InactiveReport, 1);
 
             Program.ActiveReport globalReport = new Program.ActiveReport();
             globalReport.ReadHeaders(Program.Config.PathPIO, 3);
@@ -43,6 +43,8 @@ namespace PRE
             summary.CalculateNutsAdvantage(inactiveReport.Records);
 
             summary.CalculateCombos(activeReport.Records);
+
+
             summary.AddGlobalReport(globalReport.Records);
             runWindow.SummingUp.Source = imageDone;
 

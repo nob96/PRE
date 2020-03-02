@@ -69,30 +69,30 @@ namespace PRE.Program
 
                         foreach (KeyValuePair<int, int> range in this.EquityRange)
                         {
-                            string ipKey = type + " " + range.Key.ToString() + "-" + range.Value.ToString() + "%";
+                            string key = type + " " + range.Key.ToString() + "-" + range.Value.ToString() + "%";
 
 
                             if (equity >= range.Value && equity <= range.Key)
                             {
-                                float newValue = float.Parse(this._records[flop][ipKey]) + float.Parse(records[i][weightKey]);
-                                this._records[flop][ipKey] = newValue.ToString();
+                                float newValue = float.Parse(this._records[flop][key]) + float.Parse(records[i][weightKey]);
+                                this._records[flop][key] = newValue.ToString();
                             }
                         }
                     }
                 }
             }
         }
-        public void CalculateCombos(Dictionary<int, Dictionary<string, string>> activeRecord)
+        public void CalculateCombos(Dictionary<int, Dictionary<string, string>> records)
         {
             Hand hand = new Hand();
-            for (int i = 1; i < activeRecord.Count; i++)
+            for (int i = 1; i < records.Count; i++)
             {
-                string flop = activeRecord[i]["Flop"];
-                string gameCards = activeRecord[i]["Flop"] + " " + hand.FormatHand(activeRecord[i]["Hand"]);
+                string flop = records[i]["Flop"];
+                string gameCards = records[i]["Flop"] + " " + hand.FormatHand(records[i]["Hand"]);
                 string handCategory = hand.GetCategory(gameCards);
 
 
-                foreach (var field in activeRecord[i])
+                foreach (var field in records[i])
                 {
 
                     if (field.Key.Contains("calculated") && field.Key.Contains("Freq"))
