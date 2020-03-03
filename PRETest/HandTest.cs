@@ -26,7 +26,7 @@ namespace PRETest
         public void GetConnectnessLevel()
         {
             Hand hand = new Hand();
-            string flop = "Ac 4d 3s";
+            string flop = "As 3s 2d";
             int expectedConnectnessLevel = 1;
 
             Assert.AreEqual(expectedConnectnessLevel, hand.GetConnectnessLevel(flop));

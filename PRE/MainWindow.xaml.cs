@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,6 +40,12 @@ namespace PRE
                 runWindow.Show();
                 Analyse analyse = new Analyse();
                 analyse.Run(runWindow);
+
+                BackgroundWorker worker = new BackgroundWorker();
+                worker.WorkerReportsProgress = true;
+                
+
+
             }
             
         }

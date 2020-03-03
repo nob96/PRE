@@ -153,6 +153,11 @@ namespace PRE.Program
                 switch (diffrence)
                 {
                     case 2:
+                        //Spezialfall Ace
+                        if (values.Min() == 1)
+                        {
+                            return 1;
+                        }
                         return 3;
                     case 3:
                         //Spezialfall Ace
